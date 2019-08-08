@@ -1,23 +1,46 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <!-- <registration/> -->
+    <!-- <firststep/> -->
+    <tablecomponent/>
+
+
+
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <router-view/> -->
   </div>
 </template>
 
+<script>
+
+import registration from './components/registration.vue'
+import firststep from './components/firststep.vue'
+import tablecomponent from './components/tablecomponent.vue'
+
+export default {
+  name: 'app',
+  components: {
+    registration,
+    firststep,
+    tablecomponent
+  }
+}
+</script>
+
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  background-color: #f9f9fb;
+
 }
 #nav {
-  padding: 30px;
+
 }
 
 #nav a {
