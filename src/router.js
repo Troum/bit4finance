@@ -1,23 +1,28 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+// import registration from './components/registration.vue'
+// import firststep from './components/firststep.vue'
+// import onlytablecomponent from './components/onlytablecomponent.vue'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'registration',
+      component: () => import('./views/reg.vue')
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      path: '/ticket',
+      name: 'ticket',
+      component: () => import('./views/tick.vue')
+    },
+    {
+      path: '/table',
+      name: 'table',
+      component: () => import('./views/table.vue')
     }
   ]
 })

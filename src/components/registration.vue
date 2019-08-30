@@ -11,17 +11,50 @@
         <p class="mt-4 mb-4" style="color:#818188">Bitte nutzen Sie Ihre - von uns übermittelte - Kunden-PIN und Kunden-Nr., um ein Ticket für den EDV-Helpdesk zu erstellen oder einzusehen.</p>
       </b-row>
       <b-row>
-        <p class="bit-input-description mb-0 mt-3">Ihre Login Mail Adresse oder PIN</p>
-        <b-form-input v-model="login" ></b-form-input>
-        <p class="bit-input-description mb-0 mt-3">Ihr Passwort</p>
-        <b-form-input v-model="password"></b-form-input>
-            <b-col align-self="center" cols="6" sm="6" md="6" lg="6" xl="6" class="text-left p-0">
-             <b-button pill variant="outline-danger" class="bit-botton-anfo mt-4">Login anfodern</b-button>
-            </b-col>
+        <b-form @submit.prevent="submit" class="w-100">
+         <b-form-group>
+           <p class="bit-input-description mb-0 mt-3">Ihre Login Mail Adresse oder PIN</p>
+           <b-form-input
+              v-model="login"
+              id="input-live"
+              :state="loginState"
+           ></b-form-input>
+        </b-form-group>
 
-            <b-col align-h="end" cols="6" sm="6" md="6" lg="6" xl="6" class="text-right p-0">
-             <b-button pill variant="danger" class="bit-botton-login mt-4 align-items-right">Login</b-button>
+         <b-form-group>
+           <p class="bit-input-description mb-0 mt-3">Ihr Passwort</p>
+           <b-form-input
+              id="input-live"
+              v-model="password"
+              :state="passwordState"
+           ></b-form-input>
+        </b-form-group>
+
+
+         <b-form-group>
+           <b-form-invalid-feedback id="input-live-feedback">
+             Geben Sie mindestens 3 Symbole ein
+           </b-form-invalid-feedback>
+         </b-form-group>
+
+         <b-form-group class="d-flex justify-content-between">
+            <b-row>
+               <b-col align-h="start" cols="6" sm="6" md="6" lg="6" xl="6" class="text-left p-0">
+                 <b-button pill variant="outline-danger" class="bit-botton-anfo mt-4">
+                   Login anfodern
+                 </b-button>
+              </b-col>
+
+              <b-col align-h="end" cols="6" sm="6" md="6" lg="6" xl="6" class="text-right p-0">
+             <b-button pill type="submit" variant="danger" class="bit-botton-login mt-4">
+               Login
+             </b-button>
             </b-col>
+          </b-row>
+         </b-form-group>
+
+       </b-form>
+
       </b-row>
     </b-col>
   </b-row>
@@ -29,9 +62,45 @@
 
 <script>
 
+export default {
+    computed: {
+      passwordState() {
+        return this.password.length > 2 ? true : false
+      },
+      loginState() {
+        return this.login.length > 0 ? true : false
+      }
+    },
+    data() {
+      return {
+        password: '',
+        login: ''
+      }
+    },
+    methods: {
+      submit () {
+        if ( this.passwordState && this.loginState) {
+          this.$router.push({name: 'ticket'})
+        } else {
+          console.log('not ok');
+        }
+      }
+
+    }
+  }
+
 </script>
 
 <style>
+.was-validated .form-control:invalid, .form-control.is-invalid {
+    border-color: #ced4da!important;
+    background-image: none!important;
+  }
+  .was-validated .form-control:valid:focus, .form-control.is-valid:focus {
+    border-color: #28a745!important;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25)!important;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25)!important;
+}
 .bit-left-content {
   background-image: url(../assets/city.jpg);
   background-position: center center;
@@ -73,7 +142,6 @@ font-weight: 700!important;
 
 .bit-botton-anfo  {
   padding-left: 10%!important;
-  padding-right: 10%!important;
   color: #aa072e!important;
   font-weight: 700!important;
   white-space: nowrap;

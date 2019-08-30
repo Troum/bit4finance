@@ -1,31 +1,33 @@
 <template>
   <div id="app">
     <!-- <registration/> -->
-    <!-- <firststep/> -->
-    <tablecomponent/>
+    <!-- <firststep/>
+    <onlytablecomponent/> -->
 
 
 
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="nav">
+      <router-link to="/">registration</router-link>
+      <router-link to="/ticket">ticket</router-link>
+      <router-link to="/table">table</router-link>
     </div>
-    <router-view/> -->
+    <router-view/>
   </div>
 </template>
 
 <script>
 
+import onlytablecomponent from './components/onlytablecomponent.vue'
 import registration from './components/registration.vue'
 import firststep from './components/firststep.vue'
-import tablecomponent from './components/tablecomponent.vue'
+
 
 export default {
   name: 'app',
   components: {
     registration,
     firststep,
-    tablecomponent
+    onlytablecomponent
   }
 }
 </script>
@@ -39,9 +41,7 @@ export default {
   background-color: #f9f9fb;
 
 }
-#nav {
 
-}
 
 #nav a {
   font-weight: bold;
