@@ -1,32 +1,24 @@
 <template>
   <b-row class="mx-auto" align-v="center">
     <b-col align-self="center" cols="12" sm="12" md="12" lg="12" xl="12" class="bit-left-content-firststep">
-
         <b-row class="mx-auto" align-v="center">
-
           <b-col cols="12" sm="12" md="12" lg="6" xl="6" class="bit-right-content text-left">
               <img src="../assets/logowhite.png" alt="logo" class="bit-left-content-logowhite" >
           </b-col>
-
-          <b-button pill @click="unlogin" variant="outline-danger" class="bit-unlog-button mt-4"><img src="../assets/power.png" alt="log" class="bit-unlog-pic" >Ausloggen</b-button>
-
+          <b-button pill @click="logout" variant="outline-danger" class="bit-unlog-button mt-4"><img src="../assets/power.png" alt="log" class="bit-unlog-pic" >Ausloggen</b-button>
           <b-col cols="10" sm="10" md="10" lg="5" xl="5" class="bit-form-content bit-form-content-inputs text-left">
             <b-form @submit.prevent="submit" class="w-100">
               <b-row class="bit-content-inner">
                 <h1 class="bit-login-title mt-5">Erstellen Sie ein Ticket</h1>
                 <p class="mt-4 mb-4" style="color:#818188">Would you like to pop in a CD and have a better quality of life, and even self improvement? </p>
-
                 <hr class="mt-3 mb-3 p-0" style="width:100%; color:#000;">
-
               <b-col cols="12" sm="12" md="12" lg="12" xl="12" class="p-0">
-
             <p class="bit-input-description mb-0 mt-3">Kategorie</p>
-
             <b-form-group>
               <b-form-checkbox-group
                 id="checkbox-group-1"
-                v-model="selectedkategorie"
-                :options="optionskategorie"
+                v-model="category"
+                :options="categoryOptions"
                 name="flavour-1"
               ></b-form-checkbox-group>
             </b-form-group>
@@ -35,8 +27,8 @@
             <b-form-group>
               <b-form-checkbox-group
                 id="checkbox-group-2"
-                v-model="selectedpriorit"
-                :options="optionspriorit"
+                v-model="priority"
+                :options="priorityOptions"
                 name="flavour-1"
               ></b-form-checkbox-group>
             </b-form-group>
@@ -48,18 +40,18 @@
             </b-row>
 
             <b-row class="bit-content-inner">
-              <p class="bit-input-description mb-0 mt-3">Betreff</p>
+              <p class="bit-input-description mb-0 mt-3">subject</p>
               <b-form-input
-              v-model="Betreff"
+              v-model="subject"
               id="input-live"
-              :state="BetreffState"
+              :state="subjectState"
               ></b-form-input>
 
-              <p class="bit-input-description mb-0 mt-3">Beschreibung</p>
+              <p class="bit-input-description mb-0 mt-3">description</p>
               <b-form-input
-              v-model="Beschreibung"
+              v-model="description"
               id="input-live"
-              :state="BeschreibungState"
+              :state="descriptionState"
               ></b-form-input>
             </b-row>
 
@@ -86,47 +78,49 @@
 export default {
 
   computed: {
-    BetreffState() {
-      return this.Betreff.length > 1 ? true : false
+    subjectState() {
+      return this.subject.length > 1 ? true : false
     },
-    BeschreibungState() {
-      return this.Beschreibung.length > 1 ? true : false
+    descriptionState() {
+      return this.description.length > 1 ? true : false
     }
   },
     data() {
       return {
-        Betreff: '',
-        Beschreibung: '',
-        selected: [], // Must be an array reference!
-        optionskategorie: [
-          { text: 'Support ', value: 'Support ' },
+        subject: '',
+        description: '',
+        priority: '',
+        category: '',
+        selected: [],
+        categoryOptions: [
+          { text: 'Support ', value: 'Support' },
           { text: 'Anfrage ', value: 'Anfrage' },
           { text: 'Bestellung ', value: 'Bestellung ' }
         ],
-        optionspriorit: [
+        priorityOptions: [
           { text: 'Niedrig ', value: 'Niedrig ' },
           { text: 'Mittel ', value: 'Mittel ' },
           { text: 'Hoch ', value: 'Hoch ' },
           { text: 'Eskalation ', value: 'Eskalation ' }
         ],
         options: [
-          { value: null, text: 'Please select an option' },
-          { value: 'a', text: 'This is First option' },
-          { value: 'b', text: 'Selected Option' },
-          { value: { C: '3PO' }, text: 'This is an option with object value' },
-          { value: 'd', text: 'This one is disabled', disabled: true }
+          { value: null, text: '' },
+          { value: 'a', text: '' },
+          { value: 'b', text: '' },
+          { value: 'd', text: '' },
+          { value: 'e', text: '' }
         ]
       }
     },
     methods: {
       submit () {
-        if ( this.BetreffState && this.BeschreibungState) {
+        if ( this.subjectState && this.descriptionState) {
           this.$router.push({name: 'table'})
         } else {
-          console.log('not ok');
+          return;
         }
       },
-      unlogin() {
+      logout() {
         this.$router.push({name: 'registration'})
       }
 
@@ -142,18 +136,6 @@ export default {
   background-size: cover;
   min-height: 100vh;
 }
-
-@media (max-width: 992px) {
-  .bit-form-content-inputs {
-        margin-top: 10px!important;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-  .bit-left-content-logowhite {
-      margin-top: 7%!important;}
-
-  }
 
 .bit-form-content-inputs {
   margin-top: 110px;
@@ -198,7 +180,7 @@ export default {
 
   }
 
-  .custom-control-label::before, .custom-control-label::after {
+.custom-control-label::before, .custom-control-label::after {
     box-shadow: none!important;
     outline: none!important;
 
@@ -230,6 +212,18 @@ export default {
 }
 .custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
     border-color: #aa072e!important;
+}
+
+@media (max-width: 992px) {
+  .bit-form-content-inputs {
+    margin-top: 10px!important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .bit-left-content-logowhite {
+    margin-top: 7%!important;}
+
 }
 
 </style>
